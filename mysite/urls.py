@@ -20,5 +20,5 @@ from django.views.generic import RedirectView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('blog.urls')),
-    url(r'^test/', RedirectView.as_view(url='ya.ru')),
+    url(r'^test/', RedirectView.as_view(url=r'http://google.com')),
 ]
