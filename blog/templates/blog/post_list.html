@@ -1,15 +1,15 @@
-<html>
-    <head>
-        <title>1st blog</title>
-    </head>
-    <body>
-    {% for post in posts %}
-    <div>
-        <h1>{{ post.title }}</h1>
-        <p>Contents: {{ post.text }}</p>
-        <p>published: {{ post.published_date }}</p>
-        <p>author: {{ post.author }}</p>
-    </div>
-    {% endfor %}      
-    </body>
-</html>
+{% extends 'blog/base.html' %}
+{% block content %}
+	{% for post in posts %}
+	    <div class="post">
+	        <h1>{{ post.title }}</h1>
+	        <p id='contents'>{{ post.text|linebreaksbr }}</p>
+	        <div class="dateauthor">
+	            <p>Published: {{ post.published_date }}</p>
+	            <p>Author: {{ post.author}}</p>
+	        </div>
+	        
+	    </div>
+	{% endfor %}
+{% endblock %}
+      
