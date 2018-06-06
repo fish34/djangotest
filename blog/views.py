@@ -44,5 +44,5 @@ def post_edit(request, pk):
 def post_delete(request, pk):
     post= get_object_or_404(Post, pk=pk)
     post.delete()
-    messages.success(request,'Post deleted.')
+    messages.success(request,'Post <b>{}</b> deleted.'.format(post.title), extra_tags='safe')
     return redirect('post_list')
