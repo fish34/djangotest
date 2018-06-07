@@ -7,7 +7,7 @@ from .forms import PostForm
 # Create your views here.
 
 def post_list(request):
-    posts_data = Post.objects.all()
+    posts_data = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts':posts_data})
 
 def post_detail(request, pk):
@@ -20,7 +20,6 @@ def post_new(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', pk=post.pk)
     else:
@@ -34,7 +33,6 @@ def post_edit(request, pk):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', pk=post.pk)
     else:
@@ -46,3 +44,12 @@ def post_delete(request, pk):
     post.delete()
     messages.success(request,'Post <b>{}</b> deleted.'.format(post.title), extra_tags='safe')
     return redirect('post_list')
+
+def post_draft_list(request):
+    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
+    return render(request, 'blog/post_draft_list.html', {'posts': posts})
+
+def post_publish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.publish()
+    return redirect('post_detail', pk=pk)

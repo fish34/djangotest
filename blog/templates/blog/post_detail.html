@@ -7,6 +7,8 @@
 		<div class="dateauthor">
 			{% if post.published_date %}
 	           <p>Published: {{ post.published_date }}</p>
+			{% else %}
+				<a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
 	        {% endif %}
 	         <p>Author: {{ post.author}}</p>
 	    </div>
