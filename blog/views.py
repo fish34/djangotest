@@ -1,22 +1,27 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 from .models import Post
 from .forms import PostForm
 
+
 # Create your views here.
 
 def post_list(request):
     posts_data = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts':posts_data})
+    return render(request, 'blog/post_list.html', {'posts': posts_data})
+
 
 def post_detail(request, pk):
     posts_data = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': posts_data})
 
+
+@login_required
 def post_new(request):
     if request.method == "POST":
-        form=PostForm(request.POST)
+        form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -26,6 +31,8 @@ def post_new(request):
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
+
+@login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -39,16 +46,22 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
+
+@login_required
 def post_delete(request, pk):
-    post= get_object_or_404(Post, pk=pk)
+    post = get_object_or_404(Post, pk=pk)
     post.delete()
-    messages.success(request,'Post <b>{}</b> deleted.'.format(post.title), extra_tags='safe')
+    messages.success(request, 'Post <b>{}</b> deleted.'.format(post.title), extra_tags='safe')
     return redirect('post_list')
 
+
+@login_required
 def post_draft_list(request):
     posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
     return render(request, 'blog/post_draft_list.html', {'posts': posts})
 
+
+@login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
