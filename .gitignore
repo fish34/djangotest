@@ -102,3 +102,15 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.idea/
+.env
+logs/*.log
+.gitignore
+*.pyc
+*~
+myvenv
+*.sqlite3
+*.json
+/static
+.DS_Store
+*.lock
