@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 h1 {
 	color: #156C96;
 	font-family: 'Lato', sans-serif;
@@ -28,4 +29,36 @@ p#contents {
 
 .comment {
     margin: 20px 0px 20px 20px;
+=======
+h1 {
+	color: #156C96;
+	font-family: 'Lato', sans-serif;
+}
+
+p#contents {
+	color: #1076C9;
+	text-align: justify;
+}
+
+.content {
+    margin-left: 40px;
+}
+
+.post {
+    margin-bottom: 70px;
+}
+
+.dateauthor {
+    color: #828282;
+}
+
+.page-header h1 {
+    background-color: #E3F9FF;
+    margin-top: 0;
+    padding: 20px 20px 20px 40px;
+}
+
+.comment {
+    margin: 20px 0px 20px 20px;
+>>>>>>> f2c6c4fdd9f0b0b242e8cd1c984b5b8345eeaaa1
 }
