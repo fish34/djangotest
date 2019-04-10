@@ -1,5 +1,4 @@
 {% extends 'blog/base.html' %}
-
 {% block content %}
     <div class="post">
         <h1>{{ post.title }}</h1>
@@ -18,7 +17,7 @@
 		{% endif %}
     </div>
     <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
-    {% for comment in post.comments.all %}
+    {% for comment in comm_data %}
         <div class="comment">
             <div class="date">{{ comment.created_date }}</div>
              {% if not comment.approved_comment %}
@@ -31,5 +30,4 @@
     {% empty %}
         <p>No comments here yet :(</p>
     {% endfor %}
->>>>>>> f2c6c4fdd9f0b0b242e8cd1c984b5b8345eeaaa1
 {% endblock %}

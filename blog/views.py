@@ -15,7 +15,8 @@ def post_list(request):
 
 def post_detail(request, pk):
     posts_data = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': posts_data})
+    comm_data = Comment.objects.filter(post=pk,approved_comment=True)
+    return render(request, 'blog/post_detail.html', {'post': posts_data, 'comments': comm_data})
 
 
 @login_required
@@ -50,8 +51,9 @@ def post_edit(request, pk):
 @login_required
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
-    messages.success(request, 'Post <b>{}</b> deleted.'.format(post.title), extra_tags='safe')
+    if post.author == request.user:
+        post.delete()
+        messages.success(request, 'Post <b>{}</b> deleted.'.format(post.title), extra_tags='safe')
     return redirect('post_list')
 
 
@@ -89,7 +91,8 @@ def comment_approve(request, pk):
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
-    comment.delete()
+    if comment.author == request.user:
+        comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
 
 def redirect_view(request):
